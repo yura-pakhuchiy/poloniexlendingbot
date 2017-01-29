@@ -33,7 +33,6 @@ function updateJson(data) {
 }
 
 function updateOutputCurrency(outputCurrency){
-    var OutCurr = Object.keys(outputCurrency);
     summaryCoin = outputCurrency['currency'];
     summaryCoinRate = parseFloat(outputCurrency['highestBid']);
 }
@@ -111,7 +110,11 @@ function updateRawValues(rawData){
                 lentStr += ' <b>Total</b><br/>Lent ' + printFloat(lentSum, 4) + ' of ' + printFloat(maxToLend, 4) + ' (' + printFloat(lentPercLendable, 2) + '%) <b>Lendable</b>';
             }
 
-            var rowValues = ["<b>" + currency + "</b>", lentStr,
+            var currencyStr = "<b>" + currency + "</b>";
+            if (currency == 'BTC' && summaryCoin != "BTC") {
+                currencyStr += "<br/>1 BTC = " + printFloat(summaryCoinRate, 2) + ' ' + summaryCoin;
+            }
+            var rowValues = [currencyStr, lentStr,
                 "<div class='inlinediv' >" + printFloat(averageLendingRate, 5) + '% Day' + avgRateText + '<br/>'
                     + printFloat(effectiveRate, 5) + '% Day' + effRateText + '<br/></div>'
                     + "<div class='inlinediv' >" + printFloat(yearlyRate, 2) + '% Year<br/>'
